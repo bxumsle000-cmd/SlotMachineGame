@@ -6,6 +6,7 @@ package com.poz.SlotMachine.model;
  * @param balance
  * @param updated_at
  */
+
 public record MemberWallet(
         int member_id,
         int balance,

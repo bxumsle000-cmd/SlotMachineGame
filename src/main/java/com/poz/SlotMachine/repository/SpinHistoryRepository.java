@@ -4,9 +4,10 @@ import com.poz.SlotMachine.model.MemberWallet;
 import com.poz.SlotMachine.model.Menbers;
 import com.poz.SlotMachine.model.SpinHistory;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class SpinHistoryRepository {
     private final JdbcClient jdbcClient;
 

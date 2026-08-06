@@ -2,9 +2,10 @@ package com.poz.SlotMachine.repository;
 
 import com.poz.SlotMachine.model.Menbers;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class MembersRepository {
     private final JdbcClient jdbcClient;
 

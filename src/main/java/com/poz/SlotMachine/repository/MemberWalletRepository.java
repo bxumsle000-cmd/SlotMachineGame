@@ -3,9 +3,10 @@ package com.poz.SlotMachine.repository;
 import com.poz.SlotMachine.model.MemberWallet;
 import com.poz.SlotMachine.model.Menbers;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class MemberWalletRepository {
     private final JdbcClient jdbcClient;
 
@@ -29,7 +30,7 @@ public class MemberWalletRepository {
         jdbcClient
                 .sql("""
                         UPDATE member_wallet
-                        SET balance = :newBalance:
+                        SET balance += :newBalance:
                             updated_at = SYSDATETIME()
                         WHERE menber_id= :menber_id
                         """)

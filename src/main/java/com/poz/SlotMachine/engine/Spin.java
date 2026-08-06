@@ -2,6 +2,7 @@ package com.poz.SlotMachine.engine;
 
 import com.poz.SlotMachine.model.Paytable;
 import com.poz.SlotMachine.model.SpinResults;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,10 @@ import static com.poz.SlotMachine.constant.PayableConfig.Paylines;
 import static com.poz.SlotMachine.engine.Evaluation.findBestRule;
 import static com.poz.SlotMachine.engine.Reel.reelStrips;
 
+@Service
 public class Spin {
 
-    public SpinResults spin(){
+    public SpinResults spinonce(){
         List<List<String>> window = reelWindows();
         List<List<String>> gird = windowToGrid(window);
         List<List<String>> combos = getPaylineCombos(gird);
