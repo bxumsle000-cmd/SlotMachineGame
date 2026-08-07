@@ -1,7 +1,5 @@
 package com.poz.SlotMachine.repository;
 
-import com.poz.SlotMachine.model.MemberWallet;
-import com.poz.SlotMachine.model.Menbers;
 import com.poz.SlotMachine.model.SpinHistory;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;

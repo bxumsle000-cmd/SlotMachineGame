@@ -4,10 +4,10 @@ import java.util.List;
 
 /**
  * @param totalMultiplier
- * @param gird
+ * @param grid
  * @param winPayable
  */
 public record SpinResults(
-        int totalMultiplier , List<List<String>> gird , List<Paytable> winPayable
+        int totalMultiplier , List<List<String>> grid , List<Paytable> winPayable
 ) {
 }

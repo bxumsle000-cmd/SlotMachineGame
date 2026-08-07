@@ -17,8 +17,8 @@ public class Spin {
 
     public SpinResults spinonce(){
         List<List<String>> window = reelWindows();
-        List<List<String>> gird = windowToGrid(window);
-        List<List<String>> combos = getPaylineCombos(gird);
+        List<List<String>> grid = windowToGrid(window);
+        List<List<String>> combos = getPaylineCombos(grid);
 
         int totalMultiplier = 0;
         List<Paytable> winPayable = new ArrayList<>();
@@ -30,7 +30,7 @@ public class Spin {
                 winPayable.add(payableRule);
             }
         }
-        return  new SpinResults(totalMultiplier, gird, winPayable);
+        return  new SpinResults(totalMultiplier, grid, winPayable);
     }
 
     private List<List<String>> reelWindows (){
@@ -54,7 +54,7 @@ public class Spin {
         for (int c = 0 ; c<cols ; c++){
             List<String> newrows = new ArrayList<>();
             for (int r = 0 ; r<rows ; r++){
-                newrows.add(windows.get(c).get(r));
+                newrows.add(windows.get(r).get(c));
             }
             grid.add(newrows);
         }

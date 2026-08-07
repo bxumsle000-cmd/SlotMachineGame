@@ -1,6 +1,6 @@
 package com.poz.SlotMachine.repository;
 
-import com.poz.SlotMachine.model.Menbers;
+import com.poz.SlotMachine.model.Members;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +13,31 @@ public class MembersRepository {
         this.jdbcClient = jdbcClient;
     }
 
-    public Optional<Menbers> getUserInfo(int id){
+    public Optional<Members> getUserInfo(String username,String password){
         return jdbcClient
                 .sql("""
                         SELECT *
                         FROM members
-                        WHERE id = :id
+                        WHERE username = :username  AND password =:password
                         """)
-                .param("id",id)
-                .query(Menbers.class)
+                .param("username",username)
+                .param("password",password)
+                .query(Members.class)
                 .optional();
     }
+
+    public Optional<Members> getUserInfoByName(String username){
+        return jdbcClient
+                .sql("""
+                        SELECT *
+                        FROM members
+                        WHERE username = :username
+                        """)
+                .param("username",username)
+                .query(Members.class)
+                .optional();
+    }
+
 
     public void registerNewUser(String username , String password){
         jdbcClient

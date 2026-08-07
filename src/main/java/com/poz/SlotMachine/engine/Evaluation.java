@@ -31,9 +31,10 @@ public class Evaluation {
 
         for(String symbol: symbolType){
             List<String> candidate = combo.stream().map(s-> s.equals("Wild")? symbol:s).toList();
-            Paytable rule = findMatchRule(combo);
+            Paytable rule = findMatchRule(candidate);
             if (rule!=null && rule.multiplier()>bestMultiplier){
                 bestCombo = candidate;
+                bestMultiplier = rule.multiplier();
             }
         }
         return bestCombo;

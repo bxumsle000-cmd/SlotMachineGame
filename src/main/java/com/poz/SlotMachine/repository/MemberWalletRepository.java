@@ -1,7 +1,7 @@
 package com.poz.SlotMachine.repository;
 
+import com.poz.SlotMachine.constant.BetConfig;
 import com.poz.SlotMachine.model.MemberWallet;
-import com.poz.SlotMachine.model.Menbers;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class MemberWalletRepository {
         this.jdbcClient = jdbcClient;
     }
 
-    public Optional<MemberWallet> getMenberWallet(int member_id){
+    public Optional<MemberWallet> getMemberWallet(int member_id){
         return jdbcClient
                 .sql("""
                         SELECT *
@@ -26,16 +26,26 @@ public class MemberWalletRepository {
                 .optional();
     }
 
-    public void balanceChange(int menber_id,int newBalance){
+    public void balanceChange(int member_id,int amount){
         jdbcClient
                 .sql("""
                         UPDATE member_wallet
-                        SET balance += :newBalance:
+                        SET balance += :amount,
                             updated_at = SYSDATETIME()
-                        WHERE menber_id= :menber_id
+                        WHERE member_id= :member_id
                         """)
-                .param("menber_id",menber_id)
-                .param("newBalance",newBalance)
+                .param("member_id",member_id)
+                .param("amount",amount)
+                .update();
+    }
+
+    public void createWallet(int member_id,int balance){
+        jdbcClient
+                .sql("""
+                        INSERT INTO member_wallet(member_id,balance,updated_at) VALUES(:member_id,:balance,SYSDATETIME())                       
+                        """)
+                .param("member_id",member_id)
+                .param("balance",balance)
                 .update();
     }
 

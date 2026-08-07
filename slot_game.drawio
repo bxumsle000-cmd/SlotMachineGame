@@ -1,6 +1,6 @@
 <mxfile host="Electron" pages="2">
   <diagram name="main" id="OGtN9nkY1NYpHBVZb7K2">
-    <mxGraphModel dx="2847" dy="2382" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2472" dy="2149" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -56,7 +56,7 @@
         <mxCell id="iH4MQSiNyywgHaigB_tA-2" edge="1" parent="1" source="-IFxUTO1pVX-RS0Z4xSZ-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Vjdy__4oS2JXO28XO6mX-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <UserObject label="&lt;font style=&quot;font-size: 14px;&quot;&gt;SpinService&lt;/font&gt;" note="轉動後的計算和結果" id="-IFxUTO1pVX-RS0Z4xSZ-1">
+        <UserObject label="&lt;font style=&quot;font-size: 14px;&quot;&gt;GameService&lt;/font&gt;" note="轉動後的計算和結果" id="-IFxUTO1pVX-RS0Z4xSZ-1">
           <mxCell parent="1" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1">
             <mxGeometry height="60" width="120" x="-210" y="540" as="geometry" />
           </mxCell>
@@ -172,9 +172,11 @@
         <mxCell id="EJOsF6HeRkaIiMNfKvlO-33" edge="1" parent="1" source="EJOsF6HeRkaIiMNfKvlO-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Vjdy__4oS2JXO28XO6mX-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="EJOsF6HeRkaIiMNfKvlO-31" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;前端瀏覽器呼叫API&lt;/font&gt;" vertex="1">
-          <mxGeometry height="60" width="210" x="85" y="180" as="geometry" />
-        </mxCell>
+        <UserObject label="&lt;font style=&quot;font-size: 20px;&quot;&gt;前端瀏覽器呼叫API&lt;/font&gt;" note="1 .winAmount&lt;div&gt;2. grid&lt;/div&gt;&lt;div&gt;3. Payable&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Exception:&lt;/div&gt;&lt;div&gt;1. betAmount &amp;lt; 50&lt;/div&gt;&lt;div&gt;2. betAmount %50 !=0&lt;/div&gt;&lt;div&gt;3.&amp;nbsp; InitialBalance &amp;lt; betAmount&amp;nbsp;&amp;nbsp;&lt;/div&gt;" id="EJOsF6HeRkaIiMNfKvlO-31">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1">
+            <mxGeometry height="60" width="210" x="85" y="180" as="geometry" />
+          </mxCell>
+        </UserObject>
         <mxCell id="7wu3jHE2I2JUMqY4Fgkl-21" edge="1" parent="1" source="7TM5zSRPpZ4TJRQtODL1-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Vjdy__4oS2JXO28XO6mX-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
