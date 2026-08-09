@@ -1,6 +1,6 @@
 <mxfile host="Electron" pages="2">
   <diagram name="main" id="OGtN9nkY1NYpHBVZb7K2">
-    <mxGraphModel dx="2472" dy="2149" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2712" dy="2301" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -29,7 +29,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <UserObject label="&lt;font style=&quot;font-size: 14px;&quot;&gt;GameController&lt;/font&gt;" note="遊戲運作API:&lt;div&gt;1. 取得目前餘額&lt;/div&gt;&lt;div&gt;2. spin後的結果&lt;/div&gt;" id="Vjdy__4oS2JXO28XO6mX-4">
+        <UserObject label="&lt;font style=&quot;font-size: 14px;&quot;&gt;GameController&lt;/font&gt;" note="遊戲運作API:&lt;div&gt;1. 取得目前seesion的 memberID&lt;br&gt;&lt;div&gt;2. 取得目前餘額&lt;/div&gt;&lt;div&gt;3. spin後的結果&lt;/div&gt;&lt;/div&gt;" id="Vjdy__4oS2JXO28XO6mX-4">
           <mxCell parent="1" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1">
             <mxGeometry height="60" width="120" x="-210" y="410" as="geometry" />
           </mxCell>

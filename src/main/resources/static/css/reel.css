@@ -1,0 +1,39 @@
+.reel-window {
+    width: 130px;
+    height: 240px;
+    /* = 3 格 × 80px，剛好露出 3 個符號 */
+    overflow: hidden;
+    /* 超出窗口的符號被裁掉：動畫時符號從這裡捲進捲出 */
+    border: 2px solid #ffc107;
+    box-shadow: 0 0 8px rgba(158, 28, 11, 0.911)
+    /* 加入黃色陰影有閃光效果 */
+}
+
+/* reel-strip：之後js對它做 translateY 位移，產生轉動動畫效果 */
+.reel-strip {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.reel-cell {
+    height: 80px;
+    /* 每格固定高度，動畫對齊的基本單位（放大後） */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+#result{
+    white-space: pre-line;
+}
+
+/* dialog 的內建遮罩，開啟後背景變半透明黑色 */
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+img{
+    width: 250px;
+}

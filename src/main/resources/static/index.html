@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-bs-theme="dark"> <!-- 設定深色模式 -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <title>登入 - Slot Game</title>
+</head>
+
+<body class="bg-primary-subtle d-flex align-items-center justify-content-center vh-100">
+
+<!-- 登入卡片，沿用遊戲頁的金色外框風格 -->
+<main class="p-5 border border-3 border-warning"
+      style="width: 100%; max-width: 400px; background-color: #020e20;
+             box-shadow: 0 0 20px rgba(240, 200, 82, 0.911);">
+
+    <div class="text-center mb-4">
+        <div class="fs-3">⭐ GOLD SLOT ⭐</div>
+    </div>
+
+    <!-- 用 form 包起來，這樣在密碼欄按 Enter 也能送出 -->
+    <form id="loginForm">
+        <div class="mb-3">
+            <label for="username" class="form-label">帳號</label>
+            <input type="text" class="form-control" id="username"
+                   autocomplete="username" required autofocus>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">密碼</label>
+            <input type="password" class="form-control" id="password"
+                   autocomplete="current-password" required>
+        </div>
+
+        <!-- 錯誤訊息，預設用 d-none 藏起來，出錯時才拿掉 -->
+        <div id="errorMsg" class="alert alert-danger py-2 d-none" role="alert"></div>
+
+        <button id="loginBtn" class="btn btn-warning w-100 fs-5 mb-3">登入</button>
+        <button id="registerBtn" class="btn btn-warning w-100 fs-5">註冊</button>
+    </form>
+</main>
+
+<script src="/js/login.js"></script>
+</body>
+</html>
