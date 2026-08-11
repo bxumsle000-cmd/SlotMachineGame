@@ -47,7 +47,7 @@ spinBtn.addEventListener("click", async ()=>{
             let symbol = payable.symbol;
             let count = payable.count;
             let multiplier = payable.multiplier;
-            result+=`${SYMBOL_ICONS[symbol]}    ${count}連線  ${multiplier}X \n`
+            result+=`${SYMBOL_ICONS[symbol]}    ${count}連線  ${multiplier/5}X \n`
         }
         resultEL.textContent = result;
     }else {
