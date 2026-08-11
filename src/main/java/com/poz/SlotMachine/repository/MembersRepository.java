@@ -2,10 +2,11 @@ package com.poz.SlotMachine.repository;
 
 import com.poz.SlotMachine.model.Members;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-@Service
+@Repository
 public class MembersRepository {
     private final JdbcClient jdbcClient;
 
@@ -13,19 +14,12 @@ public class MembersRepository {
         this.jdbcClient = jdbcClient;
     }
 
-    public Optional<Members> getUserInfo(String username,String password){
-        return jdbcClient
-                .sql("""
-                        SELECT *
-                        FROM members
-                        WHERE username = :username  AND password =:password
-                        """)
-                .param("username",username)
-                .param("password",password)
-                .query(Members.class)
-                .optional();
-    }
-
+    /**
+     * 密碼改存 BCrypt 雜湊後，SQL 不能再拿密碼當查詢條件
+     * （同一組密碼每次雜湊結果都不同，字串永遠不會相等）。
+     * 登入請一律用這個方法只查帳號，再由 LoginService 用
+     * passwordEncoder.matches() 比對密碼。
+     */
     public Optional<Members> getUserInfoByName(String username){
         return jdbcClient
                 .sql("""

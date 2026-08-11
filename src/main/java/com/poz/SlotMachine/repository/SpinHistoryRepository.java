@@ -2,10 +2,11 @@ package com.poz.SlotMachine.repository;
 
 import com.poz.SlotMachine.model.SpinHistory;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-@Service
+@Repository
 public class SpinHistoryRepository {
     private final JdbcClient jdbcClient;
 

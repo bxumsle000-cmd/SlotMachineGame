@@ -3,10 +3,11 @@ package com.poz.SlotMachine.repository;
 import com.poz.SlotMachine.constant.BetConfig;
 import com.poz.SlotMachine.model.MemberWallet;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-@Service
+@Repository
 public class MemberWalletRepository {
     private final JdbcClient jdbcClient;
 
