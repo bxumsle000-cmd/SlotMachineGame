@@ -12,7 +12,7 @@ public class Reel {
         reelConfig.put("Lemon", 11);
         reelConfig.put("BAR", 6);
         reelConfig.put("Seven", 6);
-        reelConfig.put("Wild", 1);
+        reelConfig.put("Wild", "1");
         }
 
 
