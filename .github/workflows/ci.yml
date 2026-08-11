@@ -1,0 +1,52 @@
+# ============================================================================
+# GitHub Actions CI
+#
+# 這個檔案不用手動執行。只要 push 到 GitHub，GitHub 就會自動：
+#   開一台乾淨的 Ubuntu → 抓下你的程式碼 → 裝 JDK 21 → mvn package
+#   成功顯示綠色勾勾，失敗顯示紅色叉叉並寄信通知。
+#
+# 【去哪裡看結果】
+#   GitHub repo 頁面 → 上方 Actions 分頁
+#   或直接看 commit 旁邊的 ✅ / ❌ 圖示，點下去可看完整 log
+#
+# 【它保護了什麼】
+#   在一台全新的機器上從零 build，可以抓出「在我電腦上明明可以跑」的問題，
+#   例如少寫依賴、少 commit 檔案、打錯字。
+#
+# 【它還不能保護什麼】
+#   目前專案沒有 src/test，所以綠勾勾只代表「編得過」，不代表「邏輯正確」。
+#   之後補了測試，這個 workflow 不用改，會自動連測試一起跑。
+# ============================================================================
+
+name: CI
+
+# 什麼時候觸發
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    # GitHub 提供的乾淨虛擬機
+    runs-on: ubuntu-latest
+
+    steps:
+      # 把 repo 的程式碼抓進這台虛擬機
+      - name: 取出程式碼
+        uses: actions/checkout@v4
+
+      # 裝 JDK 21（對應 pom.xml 的 java.version）
+      # cache: maven 會把下載過的依賴存起來，第二次之後快很多
+      - name: 安裝 JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      # 用專案自帶的 Maven Wrapper，確保 Maven 版本跟本機一致
+      # -B 是 batch mode，log 不會有一堆進度條字元
+      - name: 編譯與打包
+        run: ./mvnw -B clean package
