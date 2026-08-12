@@ -1,27 +1,11 @@
-# Maven
+# Maven 編譯產物（.class、打包好的 jar 都在這底下）
 target/
 
-# IDE - IntelliJ
+# IntelliJ IDEA 專案設定（含 SlotMachineGame.iml）
 .idea/
-*.iml
-*.ipr
-*.iws
 
-# IDE - Eclipse
-.classpath
-.project
-.settings/
+# draw.io 編輯時自動產生的備份檔
+.$*.drawio.bkp
 
-# IDE - VS Code
-.vscode/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-
-# 編譯/暫存產物
-*.class
+# 手動產出的 classpath 暫存檔
 cp.txt
