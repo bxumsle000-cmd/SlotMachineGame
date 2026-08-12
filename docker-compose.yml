@@ -1,18 +1,26 @@
 # ============================================================================
 # 使用方法（都在專案根目錄執行，也就是這個檔案所在的位置）
 #
-# 【第一次跑 / 換一台新電腦】
-#     docker compose up -d --build
-#   會依序做完：啟動 SQL Server → 等它 ready → 建立 slot_game 資料庫
-#   → 編譯並啟動 app → Flyway 自動建表。
-#   完成後開 http://localhost:8080
+# 【平常開發：app 在 IntelliJ 跑】← 預設模式
+#   資料庫已設定成開機自動啟動（restart: unless-stopped），
+#   所以正常情況下你「什麼都不用做」，直接在 IDEA 按 Run 跑
+#   SlotMachineApplication，然後開 http://localhost:8080 就好。
 #
-# 【改了程式碼，要重新測試】
-#   app 的 image 是舊程式碼打包的，要加 --build 才會重新編譯：
-#     docker compose up -d --build
-#
-# 【程式碼沒改，只是想重開】
+#   只有在資料庫真的沒起來時（例如剛裝好、或你手動 stop 過）才需要下這行：
 #     docker compose up -d
+#   它只會啟動 db，不會啟動 app（因為 app 掛了 profiles，見下方說明）。
+#
+# 【完整驗收：整套都跑在容器裡】
+#   要模擬正式環境、或想確認「換一台電腦也能跑」時用：
+#     docker compose --profile full up -d --build
+#   ※ 這會佔用 8080 埠，跑之前請先把 IDEA 裡的 app 停掉，否則會衝突。
+#   跑完記得關掉 app 容器，才能回到 IDEA 開發：
+#     docker compose stop app
+#
+# 【第一次跑 / 換一台新電腦】
+#     docker compose up -d
+#   會依序做完：啟動 SQL Server → 等它 ready → 建立 slot_game 資料庫。
+#   然後在 IDEA 按 Run，Flyway 會自動建表。
 #
 # 【看 log / 除錯】
 #     docker compose logs -f app     # 只看 app（Flyway 的訊息在這裡）
@@ -25,8 +33,9 @@
 #
 # 【整組砍掉重來，包含資料庫資料】※ 會清空所有會員與 spin 紀錄
 #     docker compose down -v
-#     docker compose up -d --build
-#   這就是 Flyway 的驗收方式：資料全沒了，但重啟後資料表會自動長回來。
+#     docker compose up -d
+#   然後在 IDEA 按 Run。這就是 Flyway 的驗收方式：
+#   資料全沒了，但 app 一啟動資料表就會自動長回來。
 #
 # 【用 SSMS 連進容器裡的資料庫看資料】
 #     伺服器名稱：localhost,14333
@@ -49,6 +58,10 @@ services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: slot-db
+    # 只要 Docker Desktop 一啟動，這個容器就自動跑起來，不用手動下指令。
+    # unless-stopped 的意思是「除非你自己手動 stop，否則都自動重啟」，
+    # 所以你哪天真的想關掉它（docker compose stop db），它會乖乖聽話不亂起來。
+    restart: unless-stopped
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "Slot_Game_1247"
@@ -93,6 +106,12 @@ services:
   app:
     build: .
     container_name: slot-app
+    # 平常開發是在 IntelliJ 按 Run 跑 app，不用這個容器。
+    # profiles 的作用：有掛 profile 的服務，預設不會被 docker compose up 啟動，
+    # 必須明確指定才會跑。這樣可以避免它佔住 8080 埠，害 IDEA 的 app 起不來。
+    #     docker compose up -d                    → 只起 db（平常開發用這個）
+    #     docker compose --profile full up -d     → 連 app 一起起（完整驗收用）
+    profiles: ["full"]
     depends_on:
       db-init:
         condition: service_completed_successfully   # 等資料庫建好才啟動
