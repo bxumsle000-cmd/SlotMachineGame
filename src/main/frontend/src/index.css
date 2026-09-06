@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* 專案主題色。定義在 @theme 之後，就能直接用 bg-casino-navy、text-casino-gold 這類 class。 */
+@theme {
+  --color-casino-navy: #020e20;
+  --color-casino-gold: #f0c852;
+}
+
+:root {
+  /* 告訴瀏覽器「這個頁面本來就是深色的」。
+     少了這行，開啟強制深色模式的瀏覽器會自作主張把所有顏色再反轉一次，
+     金色按鈕會變成黑色。舊版是靠 Bootstrap 的 data-bs-theme="dark" 達成同樣效果。
+     順帶讓捲軸、輸入框等瀏覽器內建元件也套用深色外觀。 */
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-slate-800);
+  color: var(--color-slate-100);
+}

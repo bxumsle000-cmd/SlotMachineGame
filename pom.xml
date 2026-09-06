@@ -65,6 +65,51 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!--  frontend-maven-plugin：讓 mvn 自己去建置 React 前端
+                  1. 下載一份專用的 Node/npm 到 target/（不依賴開發者機器上裝的版本）
+                  2. npm install → 依 package-lock.json 安裝（不用 ci 是因為 ci 會先砍掉
+                     整個 node_modules，在 Windows 上會跟開著的 dev server 搶檔案）
+                  3. npm run build → Vite 把成品輸出到 target/classes/static
+                  預設綁在 generate-resources 階段，也就是編譯 Java 之前，
+                  所以 mvn package 打出來的 jar 會自帶前端，部署方式完全不用改。  -->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.15.1</version>
+                <configuration>
+                    <workingDirectory>src/main/frontend</workingDirectory>
+                    <installDirectory>${project.build.directory}</installDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-node-and-npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>v22.14.0</nodeVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm-install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm-run-build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
