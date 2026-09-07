@@ -3,10 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 
 export default function LoginPage() {
+  // 帳號輸入框的值（受控元件：畫面上顯示什麼完全由這個 state 決定）
   const [username, setUsername] = useState('')
+  // 密碼輸入框的值，同樣是受控元件
   const [password, setPassword] = useState('')
+  // 紅色錯誤訊息，內容是後端回的原因（帳號密碼錯誤、帳號已停用…）
   const [errorMsg, setErrorMsg] = useState('')
+  // 綠色成功訊息，目前只有註冊成功會用到
   const [infoMsg, setInfoMsg] = useState('')
+  // 送出中；登入與註冊按鈕會被 disable，避免使用者連點送出兩次
   const [busy, setBusy] = useState(false)
   const navigate = useNavigate()
 

@@ -27,10 +27,6 @@ export const MIN_BET = 50
 export const MAX_BET = 500
 export const BET_STEP = 50
 
-// ---- 賠付表（顯示倍率 = 後端 PayableConfig 的 multiplier / 5）----
-export const PAYTABLE_ROWS = [
-  { symbol: '7', three: '10x', four: '20x', five: '100x' },
-  { symbol: 'BAR', three: '2x', four: '5x', five: '20x' },
-  { symbol: '🍒', three: '1x', four: '2x', five: '10x' },
-  { symbol: '🍋', three: '0.6x', four: '1x', five: '5x' },
-]
+// 幾條中獎線。後端的 multiplier 是以「總注金」為基準，除以這個數字
+// 才是玩家看到的單線倍率（對應後端 PayableConfig.Paylines 的長度）。
+export const PAYLINE_COUNT = 5

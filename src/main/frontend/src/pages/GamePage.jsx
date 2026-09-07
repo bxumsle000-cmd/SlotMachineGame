@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import {
@@ -6,61 +6,47 @@ import {
   BET_STEP,
   MAX_BET,
   MIN_BET,
+  PAYLINE_COUNT,
   REEL_COUNT,
   ROW_COUNT,
   STAGGER,
   SYMBOL_ICONS,
 } from '../constants/game'
+import { useSession } from '../context/session'
 import BetControl from '../components/BetControl'
 import Header from '../components/Header'
 import PaytableDialog from '../components/PaytableDialog'
 import ReelWindow from '../components/ReelWindow'
 import SpinButton from '../components/SpinButton'
 
+// 還沒轉過時的空盤面。有了它，columnSymbols 就永遠不必處理 null。
+const BLANK_GRID = Array.from({ length: ROW_COUNT }, () => Array(REEL_COUNT).fill('Blank'))
+
+// 五軸同時開始轉，最右邊那軸停得最晚；等它停完就等於全部停妥。
+const SPIN_MS = (BASE_DURATION + STAGGER * (REEL_COUNT - 1)) * 1000
+
 // 後端的 grid 是 grid[列][欄]，但每個轉軸要的是「同一欄的 3 個符號」，
 // 所以這裡把它轉置一下。
 function columnSymbols(grid, col) {
-  if (!grid) return Array(ROW_COUNT).fill('Blank')
-  return Array.from({ length: ROW_COUNT }, (_, row) => grid[row][col])
+  return grid.map((row) => row[col])
 }
 
 export default function GamePage() {
-  const [balance, setBalance] = useState(null)
+  // RequireAuth 問 /api/me 時已經把餘額一起帶回來了，直接拿來當初始值
+  const session = useSession()
+
+  const [balance, setBalance] = useState(session.balance)
   const [betAmount, setBetAmount] = useState(MIN_BET)
   const [winScore, setWinScore] = useState(0)
   const [resultText, setResultText] = useState('準備好就spin!')
-  const [grid, setGrid] = useState(null)
+  const [grid, setGrid] = useState(BLANK_GRID)
+  // 轉動流水號，每按一次 Spin 就 +1；傳給 ReelWindow 當作「開始轉」的訊號
   const [spinNo, setSpinNo] = useState(0)
+  // 是否正在轉動中；用來 disable Spin 與下注按鈕，避免重複送出請求
   const [spinning, setSpinning] = useState(false)
+  // 賠付表對話框是開著還是關著
   const [paytableOpen, setPaytableOpen] = useState(false)
   const navigate = useNavigate()
-
-  // 5 個轉軸各自跑完動畫才算結束。用 ref 記錄「已停幾軸」和「要通知誰」，
-  // 效果等同舊版 anime.js 的 Promise.all。
-  const finishedRef = useRef(0)
-  const resolveRef = useRef(null)
-
-  const handleReelFinish = useCallback(() => {
-    finishedRef.current += 1
-    if (finishedRef.current >= REEL_COUNT && resolveRef.current) {
-      resolveRef.current()
-      resolveRef.current = null
-    }
-  }, [])
-
-  function waitForReels() {
-    finishedRef.current = 0
-    return new Promise((resolve) => {
-      resolveRef.current = resolve
-    })
-  }
-
-  useEffect(() => {
-    api
-      .balance()
-      .then((data) => setBalance(data.balance))
-      .catch(() => navigate('/', { replace: true }))
-  }, [navigate])
 
   async function handleLogout() {
     try {
@@ -71,46 +57,45 @@ export default function GamePage() {
   }
 
   function handleIncreaseBet() {
-    // 按 + 加 50，超過上限就繞回最低額（跟舊版 betConfig.js 一致）
+    // 按 + 加 50，超過上限就繞回最低額（跟後端 BetConfig 一致）
     setBetAmount((current) => (current < MAX_BET ? current + BET_STEP : MIN_BET))
   }
 
   async function handleSpin() {
-    if (balance === null) return
     if (balance < betAmount) {
       setResultText('餘額不足')
       return
     }
 
     setSpinning(true)
-    const initialBalance = balance
 
     try {
       const data = await api.spin(betAmount)
 
       // 先扣掉注金，讓餘額在轉動期間就反映出來
-      setBalance(initialBalance - betAmount)
+      setBalance((current) => current - betAmount)
 
-      const reelsStopped = waitForReels()
       setGrid(data.grid)
       setSpinNo((n) => n + 1)
-      await reelsStopped
+      // 轉軸動畫要跑多久是前端自己算的，所以等同樣長的時間就等於等它們停妥
+      await new Promise((resolve) => setTimeout(resolve, SPIN_MS))
 
       setWinScore(data.winAmount)
-      setBalance(initialBalance - betAmount + data.winAmount)
+      // 結算餘額直接用後端算好的，前端不重複實作一次規則
+      setBalance(data.balance)
 
       if (data.winAmount > 0) {
         const lines = data.winPayable.map(
           ({ symbol, count, multiplier }) =>
-            `${SYMBOL_ICONS[symbol]}    ${count}連線  ${multiplier / 5}X`,
+            `${SYMBOL_ICONS[symbol]}    ${count}連線  ${multiplier / PAYLINE_COUNT}X`,
         )
         setResultText(lines.join('\n'))
       } else {
         setResultText('再接再厲')
       }
     } catch (error) {
+      // 會拋錯的只有 api.spin()，那時還沒扣注金，所以餘額不需要還原
       setResultText(error.message)
-      setBalance(initialBalance)
       if (error.status === 401) navigate('/', { replace: true })
     } finally {
       setSpinning(false)
@@ -128,7 +113,6 @@ export default function GamePage() {
             symbols={columnSymbols(grid, col)}
             spinNo={spinNo}
             duration={BASE_DURATION + STAGGER * col}
-            onFinish={handleReelFinish}
           />
         ))}
       </main>

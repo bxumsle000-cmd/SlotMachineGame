@@ -45,4 +45,5 @@ export const api = {
   logout: () => request('/api/logout', { method: 'POST' }),
   balance: () => request('/api/balance'),
   spin: (betAmount) => request(`/api/spin?betAmount=${betAmount}`, { method: 'POST' }),
+  paytable: () => request('/api/paytable'),
 }

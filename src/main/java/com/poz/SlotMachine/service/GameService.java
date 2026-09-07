@@ -69,6 +69,6 @@ public class GameService {
         spinHistoryRepository.insertNewHistory(memberID,betAmount,winAmount,
                 InitialBalance,finalBalance,spinResults.totalMultiplier());
 
-        return new SpinResponse(winAmount,spinResults.grid(),spinResults.winPayable());
+        return new SpinResponse(winAmount,finalBalance,spinResults.grid(),spinResults.winPayable());
     }
 }
