@@ -18,7 +18,8 @@ async function request(url, options = {}) {
     let message = `發生錯誤（HTTP ${res.status}）`
     try {
       const body = await res.json()
-      if (body?.message) message = body.message
+      if (body && body.message) {
+        message = body.message }
     } catch {
       // 後端沒回 JSON（例如 500 的 HTML 錯誤頁）就用上面的預設訊息
     }
