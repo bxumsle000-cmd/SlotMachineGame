@@ -19,7 +19,7 @@ import PaytableDialog from '../components/PaytableDialog'
 import ReelWindow from '../components/ReelWindow'
 import SpinButton from '../components/SpinButton'
 
-// 還沒轉過時的空盤面。有了它，columnSymbols 就永遠不必處理 null。
+// 還沒轉過時的空盤面。有了它，reelSymbols 就永遠不必處理 null。
 const BLANK_GRID = Array.from({ length: ROW_COUNT }, () => Array(REEL_COUNT).fill('Blank'))
 
 // 五軸同時開始轉，最右邊那軸停得最晚；等它停完就等於全部停妥。
@@ -27,7 +27,7 @@ const SPIN_MS = (BASE_DURATION + STAGGER * (REEL_COUNT - 1)) * 1000
 
 // 後端的 grid 是 grid[列][欄]，但每個轉軸要的是「同一欄的 3 個符號」，
 // 所以這裡把它轉置一下。
-function columnSymbols(grid, col) {
+function reelSymbols(grid, col) {
   return grid.map((row) => row[col])
 }
 
@@ -110,7 +110,7 @@ export default function GamePage() {
         {Array.from({ length: REEL_COUNT }, (_, col) => (
           <ReelWindow
             key={col}
-            symbols={columnSymbols(grid, col)}
+            symbols={reelSymbols(grid, col)}
             spinNo={spinNo}
             duration={BASE_DURATION + STAGGER * col}
           />

@@ -55,7 +55,7 @@ export default function PaytableDialog({ open, onClose }) {
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="border border-amber-400 bg-slate-900 px-12 py-6 text-slate-100 backdrop:bg-black/60"
+      className="m-auto border border-amber-400 bg-slate-900 px-12 py-6 text-slate-100 backdrop:bg-black/60"
     >
       <h5 className="my-4 text-3xl text-casino-gold">🎰 賠付表（左起連線倍率）</h5>
 
