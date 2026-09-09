@@ -18,14 +18,10 @@ export default function RequireAuth({ children }) {
   const [auth, setAuth] = useState({ status: 'checking', session: null })
 
   useEffect(() => {
-    let cancelled = false
     api
       .me()
-      .then((data) => !cancelled && setAuth({ status: 'ok', session: data }))
-      .catch(() => !cancelled && setAuth({ status: 'denied', session: null }))
-    return () => {
-      cancelled = true
-    }
+      .then((data) => setAuth({ status: 'ok', session: data }))
+      .catch(() =>  setAuth({ status: 'denied', session: null }))
   }, [])
 
   if (auth.status === 'checking') {
@@ -36,5 +32,5 @@ export default function RequireAuth({ children }) {
     )
   }
   if (auth.status === 'denied') return <Navigate to="/" replace />
-  return <SessionContext value={auth.session}>{children}</SessionContext>
+  return <SessionContext.Provider value={auth.session}>{children}</SessionContext.Provider>
 }

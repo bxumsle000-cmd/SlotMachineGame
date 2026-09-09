@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import {
@@ -12,7 +12,7 @@ import {
   STAGGER,
   SYMBOL_ICONS,
 } from '../constants/game'
-import { useSession } from '../context/session'
+import { SessionContext } from '../context/session'
 import BetControl from '../components/BetControl'
 import Header from '../components/Header'
 import PaytableDialog from '../components/PaytableDialog'
@@ -33,7 +33,7 @@ function reelSymbols(grid, col) {
 
 export default function GamePage() {
   // RequireAuth 問 /api/me 時已經把餘額一起帶回來了，直接拿來當初始值
-  const session = useSession()
+  const session = useContext(SessionContext)
 
   const [balance, setBalance] = useState(session.balance)
   const [betAmount, setBetAmount] = useState(MIN_BET)
